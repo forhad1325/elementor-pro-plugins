@@ -2,32 +2,39 @@
 /**
  * Plugin Name:       Elementor Form Lead Tracker — Protected Content & Analytics
  * Plugin URI:        https://github.com/forhad1325/elementor-pro-plugins
- * Description:       Gate protected content behind Elementor forms with secure cookie-based tokens. Track leads, monitor downloads, and sync data with GA4 and Freshsales CRM.
- * Version:           1.0.0
+ * Description:       Gate protected content behind Elementor forms with secure cookie-based tokens. Track leads, monitor downloads, and sync data with GA4 and Freshsales CRM. Perfect for lead generation, content marketing, and user engagement tracking.
+ * Version:           2.1.0
  * Requires at least: 5.8
  * Requires PHP:      7.4
  * Author:            TrustyCoder
  * Author URI:        https://trustycoder.com
  * License:           GPL-2.0-or-later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       elementor-form-lead-tracker
+ * Domain Path:       /languages
  * Requires Plugins:  elementor
+ * Network:           false
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 
-define( 'EFLT_VERSION', '1.0.0' );
+define( 'EFLT_VERSION', '2.1.0' );
 define( 'EFLT_TABLE', 'eflt_submissions' );
 define( 'EFLT_COOKIE_PREFIX', 'eflt_access_' );
 define( 'EFLT_COOKIE_DAYS', 7 );
 define( 'EFLT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'EFLT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
+// ─── Activation ───────────────────────────────────────────────────────────────
 register_activation_hook( __FILE__, 'eflt_activate' );
 function eflt_activate() {
     require_once EFLT_PLUGIN_DIR . 'includes/class-database.php';
     EFLT_Database::create_tables();
 }
 
+// ─── Load Modules ─────────────────────────────────────────────────────────────
 add_action( 'plugins_loaded', 'eflt_load_plugin' );
 function eflt_load_plugin() {
     if ( ! did_action( 'elementor/loaded' ) ) {
@@ -36,6 +43,7 @@ function eflt_load_plugin() {
         } );
         return;
     }
+
     require_once EFLT_PLUGIN_DIR . 'includes/class-database.php';
     require_once EFLT_PLUGIN_DIR . 'includes/class-form-controls.php';
     require_once EFLT_PLUGIN_DIR . 'includes/class-form-handler.php';
